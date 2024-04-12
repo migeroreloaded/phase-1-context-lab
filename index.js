@@ -1,59 +1,75 @@
 /* Your Code Here */
 
 function createEmployeeRecord(data) {
+    // Creates a new employee record object from an array of data.
     return {
-        firstName: data[0],
-        familyName: data[1],
-        title: data[2],
-        payPerHour: data[3],
-        timeInEvents: [],
-        timeOutEvents:  []
+        firstName: data[0], // The first name of the employee
+        familyName: data[1], // The family name (last name) of the employee
+        title: data[2], // The job title of the employee
+        payPerHour: data[3], // The pay rate of the employee in dollars per hour
+        timeInEvents: [], // An array to track time in events for the employee
+        timeOutEvents: [] // An array to track time out events for the employee
     }
 }
 
 function createEmployeeRecords(data) {
-    return data.map(rec => createEmployeeRecord(rec))
+    // Creates an array of employee record objects from an array of arrays of data.
+    return data.map(rec => createEmployeeRecord(rec));
 }
 
 function createTimeInEvent(str) {
-    let [inDate, inHour] = str.split(' ')
+    // Adds a time in event to an employee's record.
+    // The argument `str` is a string in the format "YYYY-MM-DD HHMM".
+    let [inDate, inHour] = str.split(' ');
     this.timeInEvents.push({
-        type: 'TimeIn',
-        date: inDate, 
-        hour: parseInt(inHour, 10)        
-    })  
-    return this
+        type: 'TimeIn', // The event type, which is "TimeIn"
+        date: inDate, // The date of the time in event
+        hour: parseInt(inHour, 10) // The hour of the time in event, parsed as an integer
+    });
+    return this;
 }
 
 function createTimeOutEvent(str) {
-    let [outDate, outHour] = str.split(' ')
+    // Adds a time out event to an employee's record.
+    // The argument `str` is a string in the format "YYYY-MM-DD HHMM".
+    let [outDate, outHour] = str.split(' ');
     this.timeOutEvents.push({
-        type: 'TimeOut',
-        date: outDate,
-        hour: parseInt(outHour, 10)
-    })
-    return this
+        type: 'TimeOut', // The event type, which is "TimeOut"
+        date: outDate, // The date of the time out event
+        hour: parseInt(outHour, 10) // The hour of the time out event, parsed as an integer
+    });
+    return this;
 }
 
 function hoursWorkedOnDate(str) {
-    let date = str.split(' ')[0]
-    let inTime = this.timeInEvents.find(day => day.date === date)
-    let outTime = this.timeOutEvents.find(day => day.date === date)
-    return (outTime.hour - inTime.hour) / 100 
+    // Calculates the hours worked by an employee on a given date.
+    // The argument `str` is a string representing the date in the format "YYYY-MM-DD".
+    let date = str.split(' ')[0];
+    let inTime = this.timeInEvents.find(day => day.date === date);
+    let outTime = this.timeOutEvents.find(day => day.date === date);
+    // Calculate the difference in hours worked and divide by 100 since time is stored as integers like 0900 for 9:00am.
+    return (outTime.hour - inTime.hour) / 100;
 }
 
-function wagesEarnedOnDate (str) {
-    return hoursWorkedOnDate.call(this, str) * this.payPerHour
+function wagesEarnedOnDate(str) {
+    // Calculates the wages earned by an employee on a given date.
+    // The argument `str` is a string representing the date in the format "YYYY-MM-DD".
+    return hoursWorkedOnDate.call(this, str) * this.payPerHour;
 }
 
 function findEmployeeByFirstName(data, name) {
-    return data.find(employee => employee.firstName === name ? createEmployeeRecord.call(this, name) : undefined)
+    // Finds an employee by their first name in an array of employee records.
+    // The argument `data` is an array of employee records and `name` is the first name to search for.
+    return data.find(employee => employee.firstName === name);
 }
 
 function calculatePayroll(data) {
+    // Calculates the total payroll for an array of employee records.
+    // The argument `data` is an array of employee records.
     return data.reduce((sum, employee) => {
-        return sum += allWagesFor.call(employee)
-    }, 0)
+        // Calculate the total wages for each employee and add it to the sum.
+        return sum += allWagesFor.call(employee);
+    }, 0);
 }
 
 /*`
